@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
-import { BookOpen, History, MessageSquare, PlusCircle, BrainCircuit, LogOut, User as UserIcon } from "lucide-react";
+import { BookOpen, History, MessageSquare, PlusCircle, BrainCircuit, LogOut, User as UserIcon, X } from "lucide-react";
 
 interface SidebarProps {
   activeTab: "guide" | "quiz" | "chat" | "history";
@@ -9,23 +9,39 @@ interface SidebarProps {
   onNewTopic: () => void;
   hasTopic: boolean;
   onOpenAuth: () => void;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export function Sidebar({ activeTab, setActiveTab, onNewTopic, hasTopic, onOpenAuth }: SidebarProps) {
+export function Sidebar({ activeTab, setActiveTab, onNewTopic, hasTopic, onOpenAuth, isOpen, onClose }: SidebarProps) {
   const { user, logout } = useAuth();
 
   return (
-    <div className="w-64 bg-slate-900 text-slate-300 h-screen flex flex-col fixed left-0 top-0 border-r border-slate-800">
-      <div className="p-6 flex items-center space-x-3 text-white border-b border-slate-800">
+    <>
+      {/* Mobile Backdrop */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/50 z-40 md:hidden"
+          onClick={onClose}
+        />
+      )}
+
+      <div className={`w-64 bg-slate-900 text-slate-300 h-screen flex flex-col fixed left-0 top-0 border-r border-slate-800 z-50 transform transition-transform duration-300 ease-in-out md:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
+        <div className="p-6 flex items-center justify-between text-white border-b border-slate-800">
+          <div className="flex items-center space-x-3">
         <div className="bg-indigo-500 p-2 rounded-xl">
           <BrainCircuit className="w-6 h-6 text-white" />
         </div>
         <span className="text-xl font-bold tracking-tight">StudyBuddy</span>
+         </div>
+          <button onClick={onClose} className="md:hidden text-slate-400 hover:text-white">
+            <X className="w-6 h-6" />
+          </button>
       </div>
 
       <div className="p-4">
         <button
-          onClick={onNewTopic}
+          onClick={() => { onNewTopic(); onClose(); }}
           className="w-full flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-3 rounded-xl font-medium transition-colors shadow-sm"
         >
           <PlusCircle className="w-5 h-5" />
@@ -39,7 +55,7 @@ export function Sidebar({ activeTab, setActiveTab, onNewTopic, hasTopic, onOpenA
         </div>
         <nav className="space-y-1 px-2">
           <button
-            onClick={() => setActiveTab("guide")}
+            onClick={() => { setActiveTab("guide"); onClose(); }}
             disabled={!hasTopic}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors ${
               activeTab === "guide"
@@ -52,7 +68,7 @@ export function Sidebar({ activeTab, setActiveTab, onNewTopic, hasTopic, onOpenA
           </button>
           
           <button
-            onClick={() => setActiveTab("quiz")}
+            onClick={() => { setActiveTab("quiz"); onClose(); }}
             disabled={!hasTopic}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors ${
               activeTab === "quiz"
@@ -65,7 +81,7 @@ export function Sidebar({ activeTab, setActiveTab, onNewTopic, hasTopic, onOpenA
           </button>
 
           <button
-            onClick={() => setActiveTab("chat")}
+            onClick={() => { setActiveTab("chat"); onClose(); }}
             disabled={!hasTopic}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors ${
               activeTab === "chat"
@@ -86,6 +102,7 @@ export function Sidebar({ activeTab, setActiveTab, onNewTopic, hasTopic, onOpenA
             onClick={() => {
               if (user) setActiveTab("history");
               else onOpenAuth();
+              onClose();
             }}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors ${
               activeTab === "history"
@@ -112,7 +129,7 @@ export function Sidebar({ activeTab, setActiveTab, onNewTopic, hasTopic, onOpenA
               </div>
             </div>
             <button
-              onClick={logout}
+              onClick={() => { logout(); onClose(); }}
               className="p-2 text-slate-500 hover:text-rose-400 hover:bg-slate-800 rounded-lg transition-colors"
               title="Log out"
             >
@@ -121,7 +138,7 @@ export function Sidebar({ activeTab, setActiveTab, onNewTopic, hasTopic, onOpenA
           </div>
         ) : (
           <button
-            onClick={onOpenAuth}
+            onClick={() => { onOpenAuth(); onClose(); }}
             className="w-full flex items-center justify-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-3 rounded-xl font-medium transition-colors"
           >
             <UserIcon className="w-5 h-5" />
@@ -130,5 +147,6 @@ export function Sidebar({ activeTab, setActiveTab, onNewTopic, hasTopic, onOpenA
         )}
       </div>
     </div>
+    </>
   );
 }

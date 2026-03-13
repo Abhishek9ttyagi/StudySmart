@@ -33,7 +33,7 @@ export function QuizConfig({ topics, onGenerate, isLoading }: QuizConfigProps) {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-8 bg-white rounded-2xl shadow-sm border border-slate-200">
+    <div className="w-full max-w-2xl mx-auto p-4 md:p-8 bg-white rounded-2xl shadow-sm border border-slate-200">
       <div className="flex items-center space-x-3 mb-6">
         <div className="bg-emerald-100 p-2 rounded-xl text-emerald-600">
           <Settings2 className="w-6 h-6" />

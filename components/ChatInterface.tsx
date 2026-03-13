@@ -33,8 +33,8 @@ export function ChatInterface({ messages, onSendMessage, isLoading }: ChatInterf
   };
 
   return (
-    <div className="flex flex-col h-[600px] w-full max-w-3xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-      <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50">
+    <div className="flex flex-col h-[calc(100vh-12rem)] md:h-[600px] w-full max-w-3xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 bg-slate-50">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-slate-500 space-y-4">
             <Bot className="w-12 h-12 text-slate-300" />

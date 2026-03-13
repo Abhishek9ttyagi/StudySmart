@@ -15,9 +15,9 @@ export function HistoryViewer({ history, documents, onSelectDocument }: HistoryV
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="text-3xl font-bold text-slate-900">Your Learning Journey</h2>
-        <div className="flex bg-slate-100 p-1 rounded-xl">
+       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Your Learning Journey</h2>
+        <div className="flex bg-slate-100 p-1 rounded-xl self-start md:self-auto">
           <button
             onClick={() => setActiveTab("quizzes")}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${

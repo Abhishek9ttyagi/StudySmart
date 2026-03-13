@@ -12,12 +12,14 @@ import { AuthModal } from "@/components/AuthModal";
 import { generateGuide, generateQuiz, createChatSession } from "@/lib/gemini";
 import { QuizQuestion, QuizAttempt, ChatMessage, Document } from "@/types";
 import { useAuth } from "@/context/AuthContext";
-import { BookOpen, BrainCircuit, MessageSquare, History, Settings2 } from "lucide-react";
+import { BookOpen, BrainCircuit, MessageSquare, History, Settings2, Menu } from "lucide-react";
+
 
 export default function Home() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<"guide" | "quiz" | "chat" | "history">("guide");
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
   const [topic, setTopic] = useState<string>("");
   const [guideContent, setGuideContent] = useState<string | null>(null);
@@ -191,23 +193,38 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen bg-slate-50 font-sans">
+       {/* Mobile Header */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-white border-b border-slate-200 z-30 flex items-center px-4 justify-between">
+        <div className="flex items-center space-x-2 text-indigo-600">
+          <BrainCircuit className="w-6 h-6" />
+          <span className="text-lg font-bold text-slate-900 tracking-tight">StudyBuddy</span>
+        </div>
+        <button 
+          onClick={() => setIsSidebarOpen(true)}
+          className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+      </div>
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onNewTopic={handleNewTopic}
         hasTopic={!!guideContent}
         onOpenAuth={() => setIsAuthModalOpen(true)}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
       />
       
-      <main className="flex-1 ml-64 p-8 overflow-y-auto">
+      <main className="flex-1 md:ml-64 p-4 md:p-8 pt-20 md:pt-8 overflow-y-auto">
         <div className="max-w-5xl mx-auto">
           {!guideContent && activeTab !== "history" ? (
             <div className="flex flex-col items-center justify-center min-h-[80vh]">
               <div className="text-center mb-12">
-                <h1 className="text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
+                <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
                   Master Any Topic
                 </h1>
-                <p className="text-xl text-slate-500 max-w-2xl mx-auto">
+                <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto px-4">
                   Upload a document, image, or enter a topic to instantly generate a comprehensive study guide, practice quizzes, and an AI tutor.
                 </p>
               </div>

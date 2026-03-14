@@ -90,7 +90,7 @@ export function QuizConfig({ topics, onGenerate, isLoading }: QuizConfigProps) {
             <input
               type="number"
               min="1"
-              max="20"
+              max="50"
               value={count}
               onChange={(e) => setCount(parseInt(e.target.value) || 5)}
               className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
